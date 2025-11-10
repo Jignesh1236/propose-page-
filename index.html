@@ -13,7 +13,6 @@
     button{margin-top:20px;padding:12px 20px;border:none;border-radius:10px;font-weight:600;cursor:pointer;font-size:16px;background:linear-gradient(90deg,#ff9aa2,#ff6b81);color:#111;transition:transform 0.2s}
     button:hover{transform:scale(1.05)}
     #msg{margin-top:20px;font-size:18px;display:none;color:#ff9aa2;line-height:1.6}
-    #acceptMsg{margin-top:20px;font-size:20px;display:none;color:#ffd166;line-height:1.8}
     #confetti{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:-1}
   </style>
 </head>
@@ -25,14 +24,12 @@
     <button id="revealBtn">Click Kar Jaldi!</button>
     <div id="msg"></div>
     <button id="acceptBtn" style="display:none;background:linear-gradient(90deg,#ffd166,#ff9aa2);color:#111;">Accept 💞</button>
-    <div id="acceptMsg"></div>
   </div>
 
   <script>
     const msg=document.getElementById('msg');
     const btn=document.getElementById('revealBtn');
     const acceptBtn=document.getElementById('acceptBtn');
-    const acceptMsg=document.getElementById('acceptMsg');
 
     btn.addEventListener('click',()=>{
       btn.style.display='none';
@@ -51,13 +48,33 @@
       },1000);
     });
 
+    // ✅ Accept button → opens new page
     acceptBtn.addEventListener('click',()=>{
-      acceptBtn.style.display='none';
-      acceptMsg.style.display='block';
-      acceptMsg.innerHTML=`💞🥀🥰 Tumne haan keh di... ab toh dil garden garden ho gaya! 🌸<br><br>
-      Ab har subah tumhari muskaan se shuru, aur har raat tumhare naam pe khatam 🌙💖<br>
-      Ab toh officially tum meri favorite notification ban gayi 😘`;
-      playConfetti();
+      const newPage=window.open();
+      newPage.document.write(`
+        <html>
+        <head>
+          <title>Haan Keh Diya 💞</title>
+          <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&family=Cookie&display=swap" rel="stylesheet">
+          <style>
+            body{margin:0;font-family:Poppins;background:linear-gradient(135deg,#ff9aa2,#ffd166);color:#111;display:flex;align-items:center;justify-content:center;height:100vh;text-align:center;overflow:hidden}
+            .msg{max-width:600px;padding:30px;background:rgba(255,255,255,0.7);border-radius:20px;box-shadow:0 10px 25px rgba(0,0,0,0.2);}
+            h1{font-family:Cookie,cursive;font-size:48px;color:#e63946;margin-bottom:10px;}
+            p{font-size:20px;line-height:1.6;}
+          </style>
+        </head>
+        <body>
+          <div class="msg">
+            <h1>💞 Tumne Haan Keh Di 🥀</h1>
+            <p>Ab toh dil garden garden ho gaya! 🌸<br><br>
+            Har subah tumhari muskaan se shuru hogi,<br>
+            Har raat tumhare naam se khatam 🌙💖<br><br>
+            Tum meri life ki cutest bug aur sweetest solution dono ho 😍<br>
+            Ab bas tum, main... aur ek endless comedy-romance season 💫💞</p>
+          </div>
+        </body>
+        </html>
+      `);
     });
 
     // Confetti + flowers animation
@@ -74,7 +91,6 @@
       for(let i=0;i<60;i++){
         pieces.push({x:random(0,W),y:random(-H,0),r:random(4,10),d:random(2,6),style:Math.random()>0.5?'#ff6b81':'#ffd166',emoji:null});
       }
-      // Add flowers too
       for(let i=0;i<25;i++){
         pieces.push({x:random(0,W),y:random(-H,0),r:random(16,26),d:random(1,4),emoji:flowerEmojis[Math.floor(random(0,flowerEmojis.length))]});
       }
