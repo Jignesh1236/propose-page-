@@ -2,7 +2,7 @@
 <html lang="hi">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
   <title>Thoda Suspense... Phir Boom 💘</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&family=Cookie&display=swap" rel="stylesheet">
   <style>
@@ -16,7 +16,7 @@
       justify-content:center;
       height:100vh;
       overflow:hidden;
-      -webkit-text-size-adjust:100%; /* help consistent text size on mobile */
+      -webkit-text-size-adjust:100%;
     }
     .card{
       background:rgba(255,255,255,0.05);
@@ -54,7 +54,6 @@
     #msg{margin-top:20px;font-size:18px;display:none;color:#ff9aa2;line-height:1.6}
     #confetti{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:-1}
 
-    /* Mobile Responsive - increased sizes for better readability without zoom */
     @media(max-width:600px){
       .card{padding:28px 22px; max-width:92%;}
       h1{font-size:42px;}
@@ -96,15 +95,17 @@
       },1000);
     });
 
-    // ✅ Accept button → opens new responsive page (doctype + lang + document.close)
+    // ✅ Fixed: proper mobile layout page open
     acceptBtn.addEventListener('click',()=>{
-      const newPage = window.open('', '_blank'); // open blank target
-      const content = `<!doctype html>
+      const newPage = window.open('', '_blank');
+      const content = `
+<!doctype html>
 <html lang="hi">
 <head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
   <title>Haan Keh Diya 💞</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&family=Cookie&display=swap" rel="stylesheet">
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <style>
     body{
       margin:0;
@@ -137,9 +138,9 @@
       line-height:1.7;
     }
     @media(max-width:600px){
-      h1{font-size:48px;}
+      h1{font-size:46px;}
       p{font-size:20px;line-height:1.8;padding:0 10px;}
-      .msg{padding:28px 20px;}
+      .msg{padding:26px 18px;}
     }
   </style>
 </head>
@@ -154,11 +155,10 @@
   </div>
 </body>
 </html>`;
-      // ensure document stream is properly written and closed so mobile applies viewport/layout correctly
-      newPage.document.open();
       newPage.document.write(content);
       newPage.document.close();
-      newPage.focus();
+      // reload ensures viewport applies correctly on mobile
+      setTimeout(()=>newPage.location.reload(),100);
     });
 
     // Confetti + flowers animation
@@ -182,10 +182,7 @@
 
     function draw(){
       ctx.clearRect(0,0,W,H);
-      // Use larger emoji font on small screens for visibility
-      if (W <= 600) ctx.font = "28px serif";
-      else ctx.font = "20px serif";
-
+      ctx.font = (W <= 600) ? "28px serif" : "20px serif";
       for(let p of pieces){
         if(p.emoji){
           ctx.fillText(p.emoji,p.x,p.y);
@@ -203,7 +200,14 @@
       }
     }
 
-    function playConfetti(){cancelAnimationFrame(anim);create();(function loop(){draw();anim=requestAnimationFrame(loop)})()}
+    function playConfetti(){
+      cancelAnimationFrame(anim);
+      create();
+      (function loop(){
+        draw();
+        anim=requestAnimationFrame(loop);
+      })();
+    }
   </script>
 </body>
 </html>
