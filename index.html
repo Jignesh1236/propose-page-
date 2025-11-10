@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Thoda Suspense... Phir Boom 💘</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&family=Cookie&display=swap" rel="stylesheet">
+  <style>
+    body{margin:0;font-family:Poppins;background:linear-gradient(135deg,#0d1117,#1b2735);color:#fff;display:flex;align-items:center;justify-content:center;height:100vh;overflow:hidden}
+    .card{background:rgba(255,255,255,0.05);padding:30px 40px;border-radius:20px;max-width:600px;text-align:center;box-shadow:0 10px 30px rgba(0,0,0,0.4)}
+    h1{font-family:Cookie,cursive;font-size:40px;color:#ff6b81;margin:0 0 10px}
+    p{color:#ccc;margin:10px 0}
+    button{margin-top:20px;padding:12px 20px;border:none;border-radius:10px;font-weight:600;cursor:pointer;font-size:16px;background:linear-gradient(90deg,#ff9aa2,#ff6b81);color:#111;transition:transform 0.2s}
+    button:hover{transform:scale(1.05)}
+    #msg{margin-top:20px;font-size:18px;display:none;color:#ff9aa2;line-height:1.6}
+    #confetti{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:-1}
+  </style>
+</head>
+<body>
+  <canvas id="confetti"></canvas>
+  <div class="card">
+    <h1>Ek Secret Hai 😏</h1>
+    <p>Mat soch itna... bas button dabao aur dekh kya hota hai 👀</p>
+    <button id="revealBtn">Click Kar Jaldi!</button>
+    <div id="msg"></div>
+  </div>
+
+  <script>
+    const msg=document.getElementById('msg');
+    const btn=document.getElementById('revealBtn');
+
+    btn.addEventListener('click',()=>{
+      btn.style.display='none';
+      setTimeout(()=>{
+        msg.style.display='block';
+        msg.innerHTML=`😳 Soch raha tha suspense banaye rakhu...<br><br>
+        Par fir laga — dil ki baat zyada der tak chupayi nahi ja sakti ❤️<br><br>
+        Jab tum hans deti ho na, lagta hai duniya thodi aur cute ho gayi,<br>
+        Aur jab tum naraz hoti ho, pura Google bhi answer nahi dhoondh paata 😅<br><br>
+        Tum meri chai ki pehli sip ho ☕,<br>
+        Tum meri playlist ka sabse sweet gaana ho 🎶,<br>
+        Tum mile toh har din ek festival lagta hai 💫<br><br>
+        Toh bolo... <b>meri life ki heroine banogi kya? Promise karta hoon 100% loyal rahunga 😉💞</b>`;
+        playConfetti();
+      },1000);
+    });
+
+    // Confetti animation
+    const canvas=document.getElementById('confetti');
+    const ctx=canvas.getContext('2d');
+    let W,H,pieces=[],anim;
+    function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight}
+    window.addEventListener('resize',resize);resize();
+
+    function random(a,b){return Math.random()*(b-a)+a}
+    function create(){pieces=[];for(let i=0;i<80;i++){pieces.push({x:random(0,W),y:random(-H,0),r:random(4,10),d:random(2,6),style:Math.random()>0.5?'#ff6b81':'#ffd166'})}}
+    function draw(){ctx.clearRect(0,0,W,H);for(let p of pieces){ctx.beginPath();ctx.ellipse(p.x,p.y,p.r,p.r*0.6,0,0,Math.PI*2);ctx.fillStyle=p.style;ctx.fill();p.x+=Math.sin(p.d)+0.5;p.y+=Math.cos(p.d)+2;p.d+=0.02;if(p.y>H+20)p.y=-10;if(p.x>W+20)p.x=-10}}
+    function playConfetti(){cancelAnimationFrame(anim);create();(function loop(){draw();anim=requestAnimationFrame(loop)})()}
+  </script>
+</body>
+</html>
