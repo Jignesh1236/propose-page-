@@ -13,6 +13,7 @@
     button{margin-top:20px;padding:12px 20px;border:none;border-radius:10px;font-weight:600;cursor:pointer;font-size:16px;background:linear-gradient(90deg,#ff9aa2,#ff6b81);color:#111;transition:transform 0.2s}
     button:hover{transform:scale(1.05)}
     #msg{margin-top:20px;font-size:18px;display:none;color:#ff9aa2;line-height:1.6}
+    #acceptMsg{margin-top:20px;font-size:20px;display:none;color:#ffd166;line-height:1.8}
     #confetti{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:-1}
   </style>
 </head>
@@ -23,11 +24,15 @@
     <p>Mat soch itna... bas button dabao aur dekh kya hota hai 👀</p>
     <button id="revealBtn">Click Kar Jaldi!</button>
     <div id="msg"></div>
+    <button id="acceptBtn" style="display:none;background:linear-gradient(90deg,#ffd166,#ff9aa2);color:#111;">Accept 💞</button>
+    <div id="acceptMsg"></div>
   </div>
 
   <script>
     const msg=document.getElementById('msg');
     const btn=document.getElementById('revealBtn');
+    const acceptBtn=document.getElementById('acceptBtn');
+    const acceptMsg=document.getElementById('acceptMsg');
 
     btn.addEventListener('click',()=>{
       btn.style.display='none';
@@ -42,7 +47,17 @@
         Tum mile toh har din ek festival lagta hai 💫<br><br>
         <b>Promise karta hoon har scene me comedy bhi, romance bhi hoga 😉💞</b>`;
         playConfetti();
+        setTimeout(()=>acceptBtn.style.display='inline-block',1500);
       },1000);
+    });
+
+    acceptBtn.addEventListener('click',()=>{
+      acceptBtn.style.display='none';
+      acceptMsg.style.display='block';
+      acceptMsg.innerHTML=`💞🥀🥰 Tumne haan keh di... ab toh dil garden garden ho gaya! 🌸<br><br>
+      Ab har subah tumhari muskaan se shuru, aur har raat tumhare naam pe khatam 🌙💖<br>
+      Ab toh officially tum meri favorite notification ban gayi 😘`;
+      playConfetti();
     });
 
     // Confetti + flowers animation
