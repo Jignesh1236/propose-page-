@@ -26,6 +26,7 @@
       width:90%;
       text-align:center;
       box-shadow:0 10px 30px rgba(0,0,0,0.4);
+      transition:opacity 0.8s ease;
     }
     h1{
       font-family:Cookie,cursive;
@@ -53,19 +54,41 @@
     button:hover{transform:scale(1.05)}
     #msg{margin-top:20px;font-size:18px;display:none;color:#ff9aa2;line-height:1.6}
     #confetti{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:-1}
-
+    #final{
+      display:none;
+      text-align:center;
+      max-width:650px;
+      padding:35px 25px;
+      background:rgba(255,255,255,0.1);
+      border-radius:25px;
+      color:#ffe6e6;
+      box-shadow:0 10px 30px rgba(0,0,0,0.4);
+      animation:fadeIn 1s ease forwards;
+    }
+    #final h1{
+      font-family:Cookie,cursive;
+      font-size:50px;
+      color:#ff9aa2;
+    }
+    #final p{
+      font-size:22px;
+      line-height:1.8;
+    }
+    @keyframes fadeIn{from{opacity:0;transform:scale(0.8);}to{opacity:1;transform:scale(1);}}
     @media(max-width:600px){
       .card{padding:28px 22px; max-width:92%;}
       h1{font-size:42px;}
       p,#msg{font-size:19px;}
       button{font-size:17px;padding:12px 18px;}
-      #msg{line-height:1.7;}
+      #final h1{font-size:46px;}
+      #final p{font-size:20px;line-height:1.8;}
     }
   </style>
 </head>
 <body>
   <canvas id="confetti"></canvas>
-  <div class="card">
+
+  <div class="card" id="card">
     <h1>Ek Secret Hai 😏</h1>
     <p>Mat soch itna... bas button dabao aur dekh kya hota hai 👀</p>
     <button id="revealBtn">Click Kar Jaldi!</button>
@@ -73,16 +96,27 @@
     <button id="acceptBtn" style="display:none;background:linear-gradient(90deg,#ffd166,#ff9aa2);color:#111;">Accept 💞</button>
   </div>
 
+  <div id="final">
+    <h1>💞 Tumne Haan Keh Di 🥀</h1>
+    <p>Ab toh dil garden garden ho gaya! 🌸<br><br>
+    Har subah tumhari muskaan se shuru hogi,<br>
+    Har raat tumhare naam se khatam 🌙💖<br><br>
+    Tum meri life ki cutest bug aur sweetest solution dono ho 😍<br>
+    Ab bas tum, main... aur ek endless comedy-romance season 💫💞</p>
+  </div>
+
   <script>
     const msg=document.getElementById('msg');
     const btn=document.getElementById('revealBtn');
     const acceptBtn=document.getElementById('acceptBtn');
+    const card=document.getElementById('card');
+    const final=document.getElementById('final');
 
     btn.addEventListener('click',()=>{
       btn.style.display='none';
       setTimeout(()=>{
         msg.style.display='block';
-        msg.innerHTML=`😳 Soch raha tha suspense banaye rakhu...<br><br>
+          msg.innerHTML=`😳 Soch raha tha suspense banaye rakhu...<br><br>
         Par fir laga — dil ki baat zyada der tak chupayi nahi ja sakti ❤️<br><br>
         Jab tum hans deti ho na, lagta hai duniya thodi aur cute ho gayi,<br>
         Aur jab tum naraz hoti ho, pura Google bhi answer nahi dhoondh paata 😅<br><br>
@@ -95,70 +129,14 @@
       },1000);
     });
 
-    // ✅ Fixed: proper mobile layout page open
+    // ✅ Instead of opening new page, show final text on same page
     acceptBtn.addEventListener('click',()=>{
-      const newPage = window.open('', '_blank');
-      const content = `
-<!doctype html>
-<html lang="hi">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
-  <title>Haan Keh Diya 💞</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&family=Cookie&display=swap" rel="stylesheet">
-  <style>
-    body{
-      margin:0;
-      font-family:Poppins;
-      background:linear-gradient(135deg,#ff9aa2,#ffd166);
-      color:#111;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      height:100vh;
-      text-align:center;
-      overflow:hidden;
-      -webkit-text-size-adjust:100%;
-    }
-    .msg{
-      max-width:650px;
-      padding:35px 30px;
-      background:rgba(255,255,255,0.9);
-      border-radius:25px;
-      box-shadow:0 10px 25px rgba(0,0,0,0.2);
-    }
-    h1{
-      font-family:Cookie,cursive;
-      font-size:50px;
-      color:#e63946;
-      margin-bottom:10px;
-    }
-    p{
-      font-size:22px;
-      line-height:1.7;
-    }
-    @media(max-width:600px){
-      h1{font-size:46px;}
-      p{font-size:20px;line-height:1.8;padding:0 10px;}
-      .msg{padding:26px 18px;}
-    }
-  </style>
-</head>
-<body>
-  <div class="msg">
-    <h1>💞 Tumne Haan Keh Di 🥀</h1>
-    <p>Ab toh dil garden garden ho gaya! 🌸<br><br>
-    Har subah tumhari muskaan se shuru hogi,<br>
-    Har raat tumhare naam se khatam 🌙💖<br><br>
-    Tum meri life ki cutest bug aur sweetest solution dono ho 😍<br>
-    Ab bas tum, main... aur ek endless comedy-romance season 💫💞</p>
-  </div>
-</body>
-</html>`;
-      newPage.document.write(content);
-      newPage.document.close();
-      // reload ensures viewport applies correctly on mobile
-      setTimeout(()=>newPage.location.reload(),100);
+      card.style.opacity='0';
+      setTimeout(()=>{
+        card.style.display='none';
+        final.style.display='block';
+        playConfetti();
+      },800);
     });
 
     // Confetti + flowers animation
