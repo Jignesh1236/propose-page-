@@ -16,12 +16,14 @@
       justify-content:center;
       height:100vh;
       overflow:hidden;
+      -webkit-text-size-adjust:100%; /* help consistent text size on mobile */
     }
     .card{
       background:rgba(255,255,255,0.05);
       padding:30px 40px;
       border-radius:20px;
       max-width:600px;
+      width:90%;
       text-align:center;
       box-shadow:0 10px 30px rgba(0,0,0,0.4);
     }
@@ -52,12 +54,13 @@
     #msg{margin-top:20px;font-size:18px;display:none;color:#ff9aa2;line-height:1.6}
     #confetti{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:-1}
 
-    /* Mobile Responsive */
+    /* Mobile Responsive - increased sizes for better readability without zoom */
     @media(max-width:600px){
-      .card{padding:25px 25px;}
-      h1{font-size:34px;}
-      p,#msg{font-size:17px;}
-      button{font-size:15px;padding:10px 18px;}
+      .card{padding:28px 22px; max-width:92%;}
+      h1{font-size:42px;}
+      p,#msg{font-size:19px;}
+      button{font-size:17px;padding:12px 18px;}
+      #msg{line-height:1.7;}
     }
   </style>
 </head>
@@ -101,6 +104,7 @@
         <head>
           <title>Haan Keh Diya 💞</title>
           <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&family=Cookie&display=swap" rel="stylesheet">
+          <meta name="viewport" content="width=device-width,initial-scale=1" />
           <style>
             body{
               margin:0;
@@ -113,11 +117,12 @@
               height:100vh;
               text-align:center;
               overflow:hidden;
+              -webkit-text-size-adjust:100%;
             }
             .msg{
               max-width:650px;
               padding:35px 30px;
-              background:rgba(255,255,255,0.8);
+              background:rgba(255,255,255,0.9);
               border-radius:25px;
               box-shadow:0 10px 25px rgba(0,0,0,0.2);
             }
@@ -132,9 +137,9 @@
               line-height:1.7;
             }
             @media(max-width:600px){
-              h1{font-size:42px;}
-              p{font-size:19px;line-height:1.8;padding:0 10px;}
-              .msg{padding:25px 20px;}
+              h1{font-size:48px;}
+              p{font-size:20px;line-height:1.8;padding:0 10px;}
+              .msg{padding:28px 20px;}
             }
           </style>
         </head>
@@ -173,7 +178,10 @@
 
     function draw(){
       ctx.clearRect(0,0,W,H);
-      ctx.font="20px serif";
+      // Use larger emoji font on small screens for visibility
+      if (W <= 600) ctx.font = "28px serif";
+      else ctx.font = "20px serif";
+
       for(let p of pieces){
         if(p.emoji){
           ctx.fillText(p.emoji,p.x,p.y);
