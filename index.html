@@ -2,121 +2,141 @@
 <html lang="hi">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Thoda Suspense... Phir Boom 💘</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&family=Cookie&display=swap" rel="stylesheet">
   <style>
-    body{
-      margin:0;
-      font-family:Poppins;
-      background:linear-gradient(135deg,#0d1117,#1b2735);
-      color:#fff;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      height:100vh;
-      overflow:hidden;
-      -webkit-text-size-adjust:100%;
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #0d1117, #1b2735);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+      transition: background 1s ease;
     }
-    .card{
-      background:rgba(255,255,255,0.05);
-      padding:30px 40px;
-      border-radius:20px;
-      max-width:600px;
-      width:90%;
-      text-align:center;
-      box-shadow:0 10px 30px rgba(0,0,0,0.4);
-      transition:opacity 0.8s ease;
+
+    .card {
+      background: rgba(255, 255, 255, 0.08);
+      padding: 30px 40px;
+      border-radius: 20px;
+      max-width: 600px;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      transition: all 0.5s ease;
     }
-    h1{
-      font-family:Cookie,cursive;
-      font-size:40px;
-      color:#ff6b81;
-      margin:0 0 10px;
+
+    h1 {
+      font-family: 'Cookie', cursive;
+      font-size: 40px;
+      color: #ff6b81;
+      margin: 0 0 10px;
     }
-    p{
-      color:#ccc;
-      margin:10px 0;
-      font-size:16px;
+
+    p {
+      color: #ccc;
+      margin: 10px 0;
+      line-height: 1.5;
     }
-    button{
-      margin-top:20px;
-      padding:12px 20px;
-      border:none;
-      border-radius:10px;
-      font-weight:600;
-      cursor:pointer;
-      font-size:16px;
-      background:linear-gradient(90deg,#ff9aa2,#ff6b81);
-      color:#111;
-      transition:transform 0.2s;
+
+    button {
+      margin-top: 20px;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 16px;
+      background: linear-gradient(90deg, #ff9aa2, #ff6b81);
+      color: #111;
+      transition: transform 0.2s, background 0.5s;
     }
-    button:hover{transform:scale(1.05)}
-    #msg{margin-top:20px;font-size:18px;display:none;color:#ff9aa2;line-height:1.6}
-    #confetti{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:-1}
-    #final{
-      display:none;
-      text-align:center;
-      max-width:650px;
-      padding:35px 25px;
-      background:rgba(255,255,255,0.1);
-      border-radius:25px;
-      color:#ffe6e6;
-      box-shadow:0 10px 30px rgba(0,0,0,0.4);
-      animation:fadeIn 1s ease forwards;
+
+    button:hover {
+      transform: scale(1.05);
     }
-    #final h1{
-      font-family:Cookie,cursive;
-      font-size:50px;
-      color:#ff9aa2;
+
+    #msg, #acceptMsg {
+      margin-top: 20px;
+      display: none;
+      line-height: 1.8;
+      opacity: 0;
+      transition: opacity 1s ease;
     }
-    #final p{
-      font-size:22px;
-      line-height:1.8;
+
+    #msg.show, #acceptMsg.show {
+      display: block;
+      opacity: 1;
     }
-    @keyframes fadeIn{from{opacity:0;transform:scale(0.8);}to{opacity:1;transform:scale(1);}}
-    @media(max-width:600px){
-      .card{padding:28px 22px; max-width:92%;}
-      h1{font-size:42px;}
-      p,#msg{font-size:19px;}
-      button{font-size:17px;padding:12px 18px;}
-      #final h1{font-size:46px;}
-      #final p{font-size:20px;line-height:1.8;}
+
+    #msg {
+      font-size: 18px;
+      color: #ff9aa2;
+    }
+
+    #acceptMsg {
+      font-size: 20px;
+      color: #ffd166;
+    }
+
+    #confetti {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    /* Responsive for Mobile */
+    @media (max-width: 600px) {
+      .card {
+        padding: 25px;
+        margin: 10px;
+      }
+      h1 {
+        font-size: 32px;
+      }
+      #msg {
+        font-size: 16px;
+      }
+      #acceptMsg {
+        font-size: 18px;
+      }
+      button {
+        font-size: 15px;
+        padding: 10px 16px;
+      }
     }
   </style>
 </head>
 <body>
   <canvas id="confetti"></canvas>
-
-  <div class="card" id="card">
+  <div class="card" id="mainCard">
     <h1>Ek Secret Hai 😏</h1>
     <p>Mat soch itna... bas button dabao aur dekh kya hota hai 👀</p>
     <button id="revealBtn">Click Kar Jaldi!</button>
     <div id="msg"></div>
     <button id="acceptBtn" style="display:none;background:linear-gradient(90deg,#ffd166,#ff9aa2);color:#111;">Accept 💞</button>
-  </div>
-
-  <div id="final">
-    <h1>💞 Tumne Haan Keh Di 🥀</h1>
-    <p>Ab toh dil garden garden ho gaya! 🌸<br><br>
-    Har subah tumhari muskaan se shuru hogi,<br>
-    Har raat tumhare naam se khatam 🌙💖<br><br>
-    Tum meri life ki cutest bug aur sweetest solution dono ho 😍<br>
-    Ab bas tum, main... aur ek endless comedy-romance season 💫💞</p>
+    <div id="acceptMsg"></div>
   </div>
 
   <script>
-    const msg=document.getElementById('msg');
-    const btn=document.getElementById('revealBtn');
-    const acceptBtn=document.getElementById('acceptBtn');
-    const card=document.getElementById('card');
-    const final=document.getElementById('final');
+    const body = document.body;
+    const msg = document.getElementById('msg');
+    const btn = document.getElementById('revealBtn');
+    const acceptBtn = document.getElementById('acceptBtn');
+    const acceptMsg = document.getElementById('acceptMsg');
+    const card = document.getElementById('mainCard');
 
-    btn.addEventListener('click',()=>{
-      btn.style.display='none';
-      setTimeout(()=>{
-        msg.style.display='block';
-          msg.innerHTML=`😳 Soch raha tha suspense banaye rakhu...<br><br>
+    btn.addEventListener('click', () => {
+      btn.style.display = 'none';
+      setTimeout(() => {
+        msg.innerHTML=`😳 Soch raha tha suspense banaye rakhu...<br><br>
         Par fir laga — dil ki baat zyada der tak chupayi nahi ja sakti ❤️<br><br>
         Jab tum hans deti ho na, lagta hai duniya thodi aur cute ho gayi,<br>
         Aur jab tum naraz hoti ho, pura Google bhi answer nahi dhoondh paata 😅<br><br>
@@ -124,66 +144,74 @@
         Tum meri playlist ka sabse sweet gaana ho 🎶,<br>
         Tum mile toh har din ek festival lagta hai 💫<br><br>
         Toh bolo... <b>meri life ki heroine banogi kya? Promise karta hoon 100% loyal rahunga 😉💞</b>`;
+        msg.classList.add('show');
         playConfetti();
-        setTimeout(()=>acceptBtn.style.display='inline-block',1500);
-      },1000);
+        setTimeout(() => acceptBtn.style.display = 'inline-block', 1500);
+      }, 1000);
     });
 
-    // ✅ Instead of opening new page, show final text on same page
-    acceptBtn.addEventListener('click',()=>{
-      card.style.opacity='0';
-      setTimeout(()=>{
-        card.style.display='none';
-        final.style.display='block';
-        playConfetti();
-      },800);
+    acceptBtn.addEventListener('click', () => {
+      acceptBtn.style.display = 'none';
+      msg.style.display = 'none';
+      card.style.background = 'rgba(255,255,255,0.15)';
+      body.style.background = 'linear-gradient(135deg, #ffdde1, #ee9ca7)';
+      acceptMsg.innerHTML = `💞🥀🥰 Tumne haan keh di... ab toh dil garden garden ho gaya! 🌸<br><br>
+      Ab har subah tumhari muskaan se shuru, aur har raat tumhare naam pe khatam 🌙💖<br>
+      Ab toh officially tum meri favorite notification ban gayi😘`;
+      acceptMsg.classList.add('show');
+      playConfetti();
     });
 
     // Confetti + flowers animation
-    const canvas=document.getElementById('confetti');
-    const ctx=canvas.getContext('2d');
-    let W,H,pieces=[],anim;
-    function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight}
-    window.addEventListener('resize',resize);resize();
+    const canvas = document.getElementById('confetti');
+    const ctx = canvas.getContext('2d');
+    let W, H, pieces = [], anim;
 
-    function random(a,b){return Math.random()*(b-a)+a}
-    const flowerEmojis=['🌸','🌹','🌼','💮','🌺'];
-    function create(){
-      pieces=[];
-      for(let i=0;i<60;i++){
-        pieces.push({x:random(0,W),y:random(-H,0),r:random(4,10),d:random(2,6),style:Math.random()>0.5?'#ff6b81':'#ffd166',emoji:null});
+    function resize() {
+      W = canvas.width = window.innerWidth;
+      H = canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    function random(a, b) { return Math.random() * (b - a) + a }
+    const flowerEmojis = ['🌸','🌹','🌼','💮','🌺'];
+
+    function create() {
+      pieces = [];
+      for (let i = 0; i < 60; i++) {
+        pieces.push({x: random(0, W), y: random(-H, 0), r: random(4, 10), d: random(2, 6), style: Math.random() > 0.5 ? '#ff6b81' : '#ffd166', emoji: null});
       }
-      for(let i=0;i<25;i++){
-        pieces.push({x:random(0,W),y:random(-H,0),r:random(16,26),d:random(1,4),emoji:flowerEmojis[Math.floor(random(0,flowerEmojis.length))]});
+      for (let i = 0; i < 25; i++) {
+        pieces.push({x: random(0, W), y: random(-H, 0), r: random(16, 26), d: random(1, 4), emoji: flowerEmojis[Math.floor(random(0, flowerEmojis.length))]});
       }
     }
 
-    function draw(){
-      ctx.clearRect(0,0,W,H);
-      ctx.font = (W <= 600) ? "28px serif" : "20px serif";
-      for(let p of pieces){
-        if(p.emoji){
-          ctx.fillText(p.emoji,p.x,p.y);
-        }else{
+    function draw() {
+      ctx.clearRect(0, 0, W, H);
+      ctx.font = "20px serif";
+      for (let p of pieces) {
+        if (p.emoji) ctx.fillText(p.emoji, p.x, p.y);
+        else {
           ctx.beginPath();
-          ctx.ellipse(p.x,p.y,p.r,p.r*0.6,0,0,Math.PI*2);
-          ctx.fillStyle=p.style;
+          ctx.ellipse(p.x, p.y, p.r, p.r * 0.6, 0, 0, Math.PI * 2);
+          ctx.fillStyle = p.style;
           ctx.fill();
         }
-        p.x+=Math.sin(p.d)+0.5;
-        p.y+=Math.cos(p.d)+2;
-        p.d+=0.02;
-        if(p.y>H+20)p.y=-10;
-        if(p.x>W+20)p.x=-10;
+        p.x += Math.sin(p.d) + 0.5;
+        p.y += Math.cos(p.d) + 2;
+        p.d += 0.02;
+        if (p.y > H + 20) p.y = -10;
+        if (p.x > W + 20) p.x = -10;
       }
     }
 
-    function playConfetti(){
+    function playConfetti() {
       cancelAnimationFrame(anim);
       create();
-      (function loop(){
+      (function loop() {
         draw();
-        anim=requestAnimationFrame(loop);
+        anim = requestAnimationFrame(loop);
       })();
     }
   </script>
