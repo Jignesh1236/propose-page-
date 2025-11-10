@@ -96,65 +96,69 @@
       },1000);
     });
 
-    // ✅ Accept button → opens new page
+    // ✅ Accept button → opens new responsive page (doctype + lang + document.close)
     acceptBtn.addEventListener('click',()=>{
-      const newPage=window.open();
-      newPage.document.write(`
-        <html>
-        <head>
-          <title>Haan Keh Diya 💞</title>
-          <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&family=Cookie&display=swap" rel="stylesheet">
-          <meta name="viewport" content="width=device-width,initial-scale=1" />
-          <style>
-            body{
-              margin:0;
-              font-family:Poppins;
-              background:linear-gradient(135deg,#ff9aa2,#ffd166);
-              color:#111;
-              display:flex;
-              align-items:center;
-              justify-content:center;
-              height:100vh;
-              text-align:center;
-              overflow:hidden;
-              -webkit-text-size-adjust:100%;
-            }
-            .msg{
-              max-width:650px;
-              padding:35px 30px;
-              background:rgba(255,255,255,0.9);
-              border-radius:25px;
-              box-shadow:0 10px 25px rgba(0,0,0,0.2);
-            }
-            h1{
-              font-family:Cookie,cursive;
-              font-size:50px;
-              color:#e63946;
-              margin-bottom:10px;
-            }
-            p{
-              font-size:22px;
-              line-height:1.7;
-            }
-            @media(max-width:600px){
-              h1{font-size:48px;}
-              p{font-size:20px;line-height:1.8;padding:0 10px;}
-              .msg{padding:28px 20px;}
-            }
-          </style>
-        </head>
-        <body>
-          <div class="msg">
-            <h1>💞 Tumne Haan Keh Di 🥀</h1>
-            <p>Ab toh dil garden garden ho gaya! 🌸<br><br>
-            Har subah tumhari muskaan se shuru hogi,<br>
-            Har raat tumhare naam se khatam 🌙💖<br><br>
-            Tum meri life ki cutest bug aur sweetest solution dono ho 😍<br>
-            Ab bas tum, main... aur ek endless comedy-romance season 💫💞</p>
-          </div>
-        </body>
-        </html>
-      `);
+      const newPage = window.open('', '_blank'); // open blank target
+      const content = `<!doctype html>
+<html lang="hi">
+<head>
+  <title>Haan Keh Diya 💞</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&family=Cookie&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    body{
+      margin:0;
+      font-family:Poppins;
+      background:linear-gradient(135deg,#ff9aa2,#ffd166);
+      color:#111;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      height:100vh;
+      text-align:center;
+      overflow:hidden;
+      -webkit-text-size-adjust:100%;
+    }
+    .msg{
+      max-width:650px;
+      padding:35px 30px;
+      background:rgba(255,255,255,0.9);
+      border-radius:25px;
+      box-shadow:0 10px 25px rgba(0,0,0,0.2);
+    }
+    h1{
+      font-family:Cookie,cursive;
+      font-size:50px;
+      color:#e63946;
+      margin-bottom:10px;
+    }
+    p{
+      font-size:22px;
+      line-height:1.7;
+    }
+    @media(max-width:600px){
+      h1{font-size:48px;}
+      p{font-size:20px;line-height:1.8;padding:0 10px;}
+      .msg{padding:28px 20px;}
+    }
+  </style>
+</head>
+<body>
+  <div class="msg">
+    <h1>💞 Tumne Haan Keh Di 🥀</h1>
+    <p>Ab toh dil garden garden ho gaya! 🌸<br><br>
+    Har subah tumhari muskaan se shuru hogi,<br>
+    Har raat tumhare naam se khatam 🌙💖<br><br>
+    Tum meri life ki cutest bug aur sweetest solution dono ho 😍<br>
+    Ab bas tum, main... aur ek endless comedy-romance season 💫💞</p>
+  </div>
+</body>
+</html>`;
+      // ensure document stream is properly written and closed so mobile applies viewport/layout correctly
+      newPage.document.open();
+      newPage.document.write(content);
+      newPage.document.close();
+      newPage.focus();
     });
 
     // Confetti + flowers animation
